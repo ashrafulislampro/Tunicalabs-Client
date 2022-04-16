@@ -1,0 +1,134 @@
+.signup-container,
+.signin-container {
+  background-color: #76040d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.signin-container {
+  padding: 14.2rem 0;
+}
+.signup-container {
+  padding: 15.3rem 0;
+}
+.form-signin {
+  background-color: #fff;
+  box-shadow: 0 5rem 5rem rgba(255, 254, 254, 0.1);
+  backdrop-filter: blur(5px);
+  padding: 4rem 2rem;
+  border-radius: 4px;
+  color: #232a31;
+  min-width: 20%;
+  max-width: 35%;
+}
+.form-signin h2 {
+  color: #f13544;
+  font-weight: 900;
+}
+
+.form-input {
+  background-color: #e9f0fe !important;
+  color: #000 !important;
+  border: 1px solid gray;
+  padding: 3% 5% !important;
+  border-radius: 30px;
+}
+/* .form-input::placeholder {
+  color: #e1e1e1e1 !important;
+} */
+/* .form-input:focus {
+  color: #dee3e4 !important;
+} */
+.form-check-input:checked {
+  background-color: transparent;
+  border-color: transparent;
+  background-color: #f13544;
+  border-color: #fc5b62;
+}
+
+.text-more-option {
+  color: #000;
+  position: relative;
+}
+.text-more-option::before,
+.text-more-option::after {
+  content: "";
+  border: 1px solid #000000;
+  position: absolute;
+  top: 50%;
+  width: 23%;
+  opacity: 0.2;
+}
+.text-more-option::before {
+  left: 0;
+}
+.text-more-option::after {
+  right: 0;
+}
+
+.btn-custom {
+  border: none;
+  padding: 3% 6%;
+  border-radius: 30px;
+  color: #fff;
+  font-weight: 500;
+  background-color: #fc5b62;
+}
+.btn-custom:active {
+  transform: scale(0.98);
+  box-shadow: 3px 2px 22px 1px rgba(255, 255, 255, 0.1);
+}
+.google_logo {
+  width: 30px;
+}
+.social-btn-box {
+  border: 1px solid gray;
+  background-color: #efefef;
+  width: 23rem;
+  cursor: pointer;
+  border-radius: 30px;
+}
+.btn-social {
+  border: none;
+  width: 15rem;
+  font-size: 25px;
+  height: 40px;
+  width: 40px;
+  border-radius: 4px;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-social i {
+  backface-visibility: hidden;
+  transition: all 0.2s ease;
+}
+.btn-social:hover i {
+  transform: scale(1.5) skew(-7deg) translate(5px, -5px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.required-text {
+  font-size: 12px;
+  display: block;
+  margin-top: 8px;
+  margin-bottom: -8px;
+  font-weight: 600;
+  color: orange;
+}
+
+/* -------------------------------------------------------------------------- */
+/*                              SHORT MEDIA QUERY                             */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 668px) {
+  .form {
+    min-height: 80vh;
+    padding: 1rem;
+  }
+
+  .form-signin {
+    padding: 2rem 1rem;
+    min-width: 100%;
+  }
+}

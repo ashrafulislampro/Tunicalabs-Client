@@ -1,24 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import AuthProvider from "./Pages/context/AuthProvider";
+import Form from "./Pages/Form/Form";
+import SignIN from "./Pages/Form/Sign_IN/Sign_IN";
+import SignUP from "./Pages/Form/Sign_UP/Sign_UP";
+import Home from "./Pages/Home/Home";
+import Navbar from "./Pages/Navbar/Navbar";
+import ParticleBackground from "./Pages/Particles/ParticleBackground";
+import PrivateRoute from "./Pages/PrivateRoute/PrivateRoute";
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      offset: 120,
+      delay: 100,
+      duration: 900,
+      easing: "ease",
+    });
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <Router>
+        <Navbar />
+        <ParticleBackground />
+        <Switch>
+          <PrivateRoute exact path="/">
+            <Home />
+          </PrivateRoute>
+          <Route exact path="/form/signin">
+            <Form>
+              <SignIN></SignIN>
+            </Form>
+          </Route>
+          <Route exact path="/form/signup">
+            <Form>
+              <SignUP></SignUP>
+            </Form>
+          </Route>
+        </Switch>
+      </Router>
+    </AuthProvider>
   );
 }
 
