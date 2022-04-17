@@ -1,22 +1,9 @@
-// import axios from "axios";
-// import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Form, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import popupSuccess from "../../Popup/popupSuccess";
-const ModalPopup =({show, handleClose, eventId})=> {
-    // const [singleData, setSingleData] = useState({});
-    // console.log(eventId);
-    // useEffect(()=> {
-    //     axios
-    //     .get(`http://localhost:5000/singleData/${eventId}`)
-    //     .then((data)=> {
-    //       console.log(data)
-    //         // setSingleData(data);
-    //     })
-    //     .catch((err) => console.log(err.message));
-        
-    // },[]);
+const ModalPopup =({show, handleClose, eventId, singleData})=> {
+  
     const {
       register,
       handleSubmit,
@@ -32,22 +19,21 @@ const ModalPopup =({show, handleClose, eventId})=> {
       divison : data.divison,
       date : data.date
     }
-    console.log(data);
+    // console.log(data);
     axios
-    .put(`http://localhost:5000/update_info/${eventId}`, newEvent)
+    .put(`https://obscure-tundra-19737.herokuapp.com/update_info/${eventId}`, newEvent)
     .then((data) => {
       console.log(data)
       const isUpdated = data.data.modifiedCount;
       if(isUpdated){
         popupSuccess("update");
-        // reset();
+        reset();
+        handleClose();
       }
     })
     .catch((err) => console.log(err.message));
-    reset();
+    // reset();
   }
-console.log(eventId)
-// console.log(singleData);
     return (
       <>
         <Modal show={show} onHide={handleClose}>
@@ -61,6 +47,7 @@ console.log(eventId)
                 <Form.Control
                   type="text"
                   placeholder="Name"
+                  defaultValue={singleData?.name}
                   className="input-fields"
                   autoFocus
                   {...register("name", { required: true })}
@@ -74,6 +61,7 @@ console.log(eventId)
                 <Form.Control
                   type="number"
                   placeholder="Your Age"
+                  defaultValue={singleData?.date}
                   className="input-fields"
                   {...register("date", { required: true })}
                 />
@@ -84,7 +72,7 @@ console.log(eventId)
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>School</Form.Label>
                 <Form.Select name="school" className="input-fields" aria-label="Default select example" {...register("school", { required: true })}>
-                  <option >Select menu</option>
+                  <option >{singleData?.school}</option>
                   <option value="Daripura Model School">Daripura Model School</option>
                   <option value="Shibpur Model School">Shibpur Model School</option>
                   <option value="Narsingdi Model School">Narsingdi Model School</option>
@@ -97,7 +85,7 @@ console.log(eventId)
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Class</Form.Label>
                 <Form.Select name="class" className="input-fields" aria-label="Default select example" {...register("class", { required: true })}>
-                  <option >Select menu</option>
+                  <option >{singleData?.class}</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -110,7 +98,7 @@ console.log(eventId)
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Divison</Form.Label>
                 <Form.Select name="divison" className="input-fields" aria-label="Default select example" {...register("divison", { required: true })}>
-                  <option >Select menu</option>
+                  <option>{singleData?.divison}</option>
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
@@ -123,12 +111,12 @@ console.log(eventId)
               <Form.Group className="mb-5 d-flex justify-content-between" controlId="formHorizontalCheck">
               <Form.Label style={{ fontWeight: "600" }} className="pt-3">Status</Form.Label>
               <div name="radio" className="mt-3 d-flex justify-content-around w-75" >
-                <Form.Check type="radio" name="radio" className="form-label" label="Active" value="Active" {...register("radio")}/>
+                <Form.Check type="radio" name="radio" className="form-label" label="Active"  value="Active" {...register("radio")}/>
                 <Form.Check type="radio" name="radio" className="form-label" label="Invoice" value="Invoice" {...register("radio")}/>
               </div>
               </Form.Group>
-
-              <Button onClick={handleClose} variant="primary" className="w-100 btn-custom" type="submit">
+{/* onClick={handleClose} */}
+              <Button variant="primary" className="w-100 btn-custom" type="submit">
               Save Changes
             </Button>
             </Form>

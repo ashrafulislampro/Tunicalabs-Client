@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect, Route } from "react-router";
-import { PuffLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 import useAuth from "../../Pages/Hooks/useAuth";
 
 const PrivateRoute = ({ children, ...rest }) => {
@@ -9,7 +9,7 @@ const PrivateRoute = ({ children, ...rest }) => {
   if (loading) {
     return (
       <div className="spinner-box" style={{ minHeight: "100vh" }}>
-        <PuffLoader color="#fc5b62" />
+        <RingLoader color="#fc5b62" />
       </div>
     );
   } //initial loading before getting user information

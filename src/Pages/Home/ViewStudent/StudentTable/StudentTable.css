@@ -1,0 +1,12 @@
+.page-item.active .page-link {
+  background-color: transparent;
+  background-color: #d31c2b;
+  border-color: transparent;
+  border-color: #d31c2b;
+}
+
+.page-link {
+  margin: 7px;
+  cursor: pointer;
+  border-radius: 3px;
+}

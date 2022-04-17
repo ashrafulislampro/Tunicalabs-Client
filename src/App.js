@@ -8,7 +8,6 @@ import SignIN from "./Pages/Form/Sign_IN/Sign_IN";
 import SignUP from "./Pages/Form/Sign_UP/Sign_UP";
 import Home from "./Pages/Home/Home";
 import Navbar from "./Pages/Navbar/Navbar";
-import ParticleBackground from "./Pages/Particles/ParticleBackground";
 import PrivateRoute from "./Pages/PrivateRoute/PrivateRoute";
 
 function App() {
@@ -24,9 +23,12 @@ function App() {
     <AuthProvider>
       <Router>
         <Navbar />
-        <ParticleBackground />
+        {/* <ParticleBackground /> */}
         <Switch>
           <PrivateRoute exact path="/">
+            <Home />
+          </PrivateRoute>
+          <PrivateRoute exact path="/home">
             <Home />
           </PrivateRoute>
           <Route exact path="/form/signin">

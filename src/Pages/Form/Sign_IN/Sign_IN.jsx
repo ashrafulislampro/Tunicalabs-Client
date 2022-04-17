@@ -63,9 +63,6 @@ const Sign_IN = () => {
 
   return (
     <div className="signin-container">
-      
-    
-
       <div className="form-signin" data-aos="fade-down">
         <h2 className="text-center mb-5">Sign In Now</h2>
         <Form onSubmit={handleSubmit(onSubmit)}>

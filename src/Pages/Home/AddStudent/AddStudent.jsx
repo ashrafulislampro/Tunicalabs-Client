@@ -31,7 +31,7 @@ const AddStudent = () => {
     console.log(data);
     
     axios
-    .post("http://localhost:5000/addEvent", newEvent)
+    .post("https://obscure-tundra-19737.herokuapp.com/addEvent", newEvent)
     .then(data => {
       const isAdded = data.data.insertedId;
       if(isAdded){

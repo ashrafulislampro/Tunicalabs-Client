@@ -1,20 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Form, Table } from "react-bootstrap";
-import { GiSaveArrow } from "react-icons/gi";
-import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
+import { Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import { RingLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import popupSuccess from "../../Popup/popupSuccess";
 import ModalPopup from "./ModalPopup";
+import StudentTable from "./StudentTable/StudentTable";
 import "./ViewStudent.css";
+
 
 const ViewStudent = () => {
   const [stInfo, setStInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [eventId, setEventId] = useState(null);
-
+  const [singleData, setSingleData] = useState({});
   const handleClose = () => setShow(false);
 
   useEffect(() => {
@@ -23,11 +24,12 @@ const ViewStudent = () => {
     /*                     LOAD ALL STUDENT INFO FUNCTIONALITY                    */
     /* -------------------------------------------------------------------------- */
     setTimeout(() => {
-      axios.get("http://localhost:5000/events").then((data) => {
+      axios.get("https://obscure-tundra-19737.herokuapp.com/events").then((data) => {
         setStInfo(data.data);
         setLoading(false);
       });
     }, 1500);
+
   }, []);
   //
   const activeStyle = {
@@ -49,9 +51,11 @@ const ViewStudent = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios.delete(`http://localhost:5000/remove_info/${id}`).then((data) => {
+    }).then(async (result) => {
+      if(result.isConfirmed) {
+        await axios
+        .delete(`https://obscure-tundra-19737.herokuapp.com/remove_info/${id}`)
+        .then((data) => {
           console.log(data);
           const isDeleted = data.data.deletedCount;
 
@@ -78,17 +82,51 @@ const ViewStudent = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
+      await axios
+        .get(`https://obscure-tundra-19737.herokuapp.com/singleData/${id}`)
+        .then((data)=> {
+          console.log(data.data)
+          setSingleData(data.data);
+        })
+        .catch((err) => console.log(err.message));
+
         setShow(true);
       }
     });
   };
+  /* -------------------------------------------------------------------------- */
+  /*                     SEARCH FIELD FOR FILTERING STUDENT INFO FUNCTIONALITY                    */
+  /* -------------------------------------------------------------------------- */
+  const {
+    register,
+    handleSubmit,
+    reset,
+  } = useForm();
+  const onSubmit = async (data) => {
+    const newEvent = {
+    name : data.name,
+    school : data.school,
+    class : data.class,
+    divison : data.divison,
+    date : data.date
+  }
+  const result = stInfo.filter((item) => item.name.toLowerCase() === newEvent.name.toLowerCase())
+  // const result = await axios(`http://localhost:5000/search?value=${newEvent.name}`);
+  // https://obscure-tundra-19737.herokuapp.com/
+  setStInfo(result);
+  // console.log(result);
+  reset();
+}
+ 
 
+console.log(stInfo)
   return (
     <section>
       <h2 style={activeStyle}>View Student</h2>
       <ModalPopup
+        singleData={singleData}
         eventId={eventId}
         handleClose={handleClose}
         show={show}
@@ -100,12 +138,13 @@ const ViewStudent = () => {
       ) : (
         <div className="">
           <div className=" mb-3">
-            <Form className="d-flex">
+            <Form className="d-flex" onSubmit={handleSubmit(onSubmit)}>
               <Form.Group className="mb-3 me-3" controlId="formGroupEmail">
                 <Form.Control
                   type="text"
                   placeholder="Name"
                   className="fields"
+                  {...register("name")}
                 />
               </Form.Group>
               <Form.Group className="mb-3 me-3" controlId="formGroupPassword">
@@ -113,6 +152,7 @@ const ViewStudent = () => {
                   type="number"
                   placeholder="Your Age"
                   className="fields"
+                  {...register("date")}
                 />
               </Form.Group>
               <Form.Group className="mb-3 me-3" controlId="formGroupPassword">
@@ -120,6 +160,7 @@ const ViewStudent = () => {
                   name="school"
                   className="fields"
                   aria-label="Default select example"
+                  {...register("school")}
                 >
                   <option>School</option>
                   <option value="Daripura Model School">
@@ -138,6 +179,7 @@ const ViewStudent = () => {
                 <Form.Select
                   name="class"
                   className="fields"
+                  {...register("class")}
                   aria-label="Default select example"
                 >
                   <option>Class</option>
@@ -151,6 +193,7 @@ const ViewStudent = () => {
                 <Form.Select
                   name="divison"
                   className="fields"
+                  {...register("divison")}
                   aria-label="Default select example"
                 >
                   <option>Divison</option>
@@ -161,73 +204,15 @@ const ViewStudent = () => {
                 </Form.Select>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formHorizontalCheck">
-                <button className="fields-btn">Search</button>
+                <button className="fields-btn" type="submit">Search</button>
               </Form.Group>
             </Form>
           </div>
 
           {/* TABLE IS START */}
-
-          <Table striped bordered hover>
-            <thead className="table_header">
-              <tr>
-                <th>ID'V</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>School</th>
-                <th>Class</th>
-                <th>Divison</th>
-                <th colSpan={3}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {stInfo.map((data, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{data.name}</td>
-                  <td>{data.date}</td>
-                  <td>{data.school}</td>
-                  <td>{data.class}</td>
-                  <td>{data.divison}</td>
-                  <td>{data.radio}</td>
-                  <td
-                    onClick={() => handleEditButton(data._id)}
-                    className="edit"
-                  >
-                    Edit
-                  </td>
-                  <td
-                    onClick={() => handleDeleteButton(data._id)}
-                    className="delete"
-                  >
-                    Delete
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <div className="d-flex justify-content-between">
-            <button className="download_btn">
-              Download Excel{" "}
-              <span className="icons">
-                {" "}
-                <GiSaveArrow />
-              </span>
-            </button>
-            <div className="d-flex">
-              <span className="icon me-3">
-                <RiArrowLeftSLine />
-              </span>
-              <div className="number d-flex justify-content-between">
-                <p className="number1">1</p>
-                <p className="number2">2</p>
-                <p className="number3">3</p>
-              </div>
-              <span className="icon">
-                <RiArrowRightSLine />
-              </span>
-            </div>
-          </div>
+          <StudentTable stInfo={stInfo} handleEditButton={handleEditButton} handleDeleteButton={handleDeleteButton}></StudentTable>
+          {/* TABLE IS END */}
+          
         </div>
       )}
     </section>
