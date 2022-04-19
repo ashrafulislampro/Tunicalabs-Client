@@ -18,7 +18,7 @@ import popupSuccess from "../Popup/popupSuccess";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const { user, signInWithEmail, signInWithSocial, logOut } = useAuth();
+  const { user, logOut } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -127,6 +127,7 @@ const Navbar = () => {
       </MenuItem>
     </Menu>
   );
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>

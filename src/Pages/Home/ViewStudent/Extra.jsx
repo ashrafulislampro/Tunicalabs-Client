@@ -3,7 +3,8 @@ import { Table } from "react-bootstrap";
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import "./StudentTable.css";
 
-const ExtraPagination = ({ stInfo, handleEditButton, handleDeleteButton }) => {
+
+const StudentTable = ({ stInfo, handleEditButton, handleDeleteButton }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [userPerPage] = useState(10);
 
@@ -16,11 +17,13 @@ const ExtraPagination = ({ stInfo, handleEditButton, handleDeleteButton }) => {
 
   console.log(currentPage);
 
-  const numbers = [];
-  for (let i = 1; i < stInfo.length / userPerPage; i++) {
-    numbers.push(i);
-  }
 
+
+  const numbers = [];
+  for(let i = 1; i< stInfo.length / userPerPage;  i++){
+     numbers.push(i);
+  }
+  
   return (
     <div>
       <Table id="table-to-xls" striped bordered hover>
@@ -39,16 +42,15 @@ const ExtraPagination = ({ stInfo, handleEditButton, handleDeleteButton }) => {
           {allUser &&
             allUser.map((data, index) => (
               <tr key={index}>
-                {currentPage === 1 && <td>{index + 1}</td>}
-                {currentPage === 2 && <td>{index + 1 + 10}</td>}
-                {currentPage === 3 && <td>{index + 1 + 20}</td>}
-                {currentPage === 4 && <td>{index + 1 + 30}</td>}
-                {currentPage === 5 && <td>{index + 1 + 40}</td>}
-                {currentPage === 6 && <td>{index + 1 + 50}</td>}
-                {currentPage === 7 && <td>{index + 1 + 60}</td>}
-                {currentPage === 8 && <td>{index + 1 + 70}</td>}
-                {currentPage === 9 && <td>{index + 1 + 80}</td>}
-                {currentPage === 10 && <td>{index + 1 + 90}</td>}
+                  {currentPage === 1 && <td>{(index + 1)}</td>}
+                  {currentPage === 2 && <td>{(index + 1) + 10}</td>}
+                  {currentPage === 3 && <td>{(index + 1) + 20}</td>}
+                  {currentPage === 4 && <td>{(index + 1) + 30}</td>}
+                  {currentPage === 5 && <td>{(index + 1) + 40}</td>}
+                  {currentPage === 6 && <td>{(index + 1) + 50}</td>}
+                  {currentPage === 8 && <td>{(index + 1) + 60}</td>}
+                  {currentPage === 9 && <td>{(index + 1) + 70}</td>}
+                  {currentPage === 10 && <td>{(index + 1) + 80}</td>}
                 <td>{data.name}</td>
                 <td>{data.date}</td>
                 <td>{data.school}</td>
@@ -79,19 +81,16 @@ const ExtraPagination = ({ stInfo, handleEditButton, handleDeleteButton }) => {
           buttonText="Download Excel  ⬇️"
         ></ReactHTMLTableToExcel>
 
-        <nav>
+        <nav aria-label="Page navigation example">
           <ul class="pagination">
-            {numbers.map((number, index) => (
-              <li
-                onClick={() => setCurrentPage(number)}
-                className={
-                  number === currentPage ? "page-item active" : "page-item"
-                }
-                key={index}
-              >
-                <p className="page-link">{number}</p>
-              </li>
-            ))}
+            
+          {numbers.map((number, index)=> (
+            <li onClick={()=> setCurrentPage(number)} className={ number === currentPage ? "page-item active" : "page-item"} key={index}>
+              <p className="page-link">{number}</p>
+          </li>
+          )
+          )}
+            
           </ul>
         </nav>
       </div>
@@ -99,4 +98,4 @@ const ExtraPagination = ({ stInfo, handleEditButton, handleDeleteButton }) => {
   );
 };
 
-export default ExtraPagination;
+export default StudentTable;

@@ -3,6 +3,7 @@ import "aos/dist/aos.css";
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AuthProvider from "./Pages/context/AuthProvider";
+import EditComponent from "./Pages/EditComponent/EditComponent";
 import Form from "./Pages/Form/Form";
 import SignIN from "./Pages/Form/Sign_IN/Sign_IN";
 import SignUP from "./Pages/Form/Sign_UP/Sign_UP";
@@ -28,8 +29,11 @@ function App() {
           <PrivateRoute exact path="/">
             <Home />
           </PrivateRoute>
-          <PrivateRoute exact path="/home">
+          {/* <PrivateRoute exact path="/home">
             <Home />
+          </PrivateRoute> */}
+          <PrivateRoute path="/edit/:id">
+            <EditComponent />
           </PrivateRoute>
           <Route exact path="/form/signin">
             <Form>

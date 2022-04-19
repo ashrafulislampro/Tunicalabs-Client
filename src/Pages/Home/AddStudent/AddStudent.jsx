@@ -6,12 +6,6 @@ import popupSuccess from "../../Popup/popupSuccess";
 import "./AddStudent.css";
 
 const AddStudent = () => {
-  const activeStyle = {
-    color: "#fc5b62",
-    fontWeight: "800",
-    backgroundColor: "transparent",
-    marginBottom: "10px"
-  };
 
   const {
     register,
@@ -19,18 +13,24 @@ const AddStudent = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
+
+
+  const onSubmit = async (data) => {
+    const date = new Date();
+    const presentYear = date.getFullYear();
+    const DOBYear = parseInt(data.date);
+    const age = presentYear - DOBYear;
     const newEvent = {
     name : data.name,
     school : data.school,
     class : data.class,
     radio : data.radio,
     divison : data.divison,
-    date : data.date
+    age : age
   }
-    console.log(data);
+  
     
-    axios
+  await  axios
     .post("https://obscure-tundra-19737.herokuapp.com/addEvent", newEvent)
     .then(data => {
       const isAdded = data.data.insertedId;
@@ -46,7 +46,7 @@ const AddStudent = () => {
     <div className="container">
       <div className="row">
         <div className="col-6">
-          <h2 style={activeStyle}>Add Student</h2>
+          <h2 className="activeStyle">Add Student</h2>
           <div className="">
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group
@@ -77,7 +77,7 @@ const AddStudent = () => {
                   Date Of Birth
                 </Form.Label>
                 <Form.Control
-                  type="number"
+                  type="date"
                   placeholder="Your Age"
                   className="input-field"
                   {...register("date", { required: true })}
@@ -110,7 +110,7 @@ const AddStudent = () => {
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
-                  <option value="3">4</option>
+                  <option value="4">4</option>
                 </Form.Select>
                 </div>
                 {errors.select?.type === "required" && (
@@ -125,7 +125,7 @@ const AddStudent = () => {
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
-                  <option value="C">D</option>
+                  <option value="D">D</option>
                 </Form.Select>
                 </div>
                 {errors.select?.type === "required" && (

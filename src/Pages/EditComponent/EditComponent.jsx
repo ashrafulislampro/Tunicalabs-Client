@@ -1,46 +1,109 @@
 import axios from "axios";
-import { Button, Form, Modal } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import popupSuccess from "../../Popup/popupSuccess";
-const ModalPopup =({show, handleClose, eventId, singleData})=> {
-  
-    const {
-      register,
-      handleSubmit,
-      reset,
-      formState: { errors },
-    } = useForm();
-    const onSubmit = (data) => {
-      const newEvent = {
-      name : data.name,
-      school : data.school,
-      class : data.class,
-      radio : data.radio,
-      divison : data.divison,
-      date : data.date
-    }
-    // console.log(data);
-    axios
-    .put(`https://obscure-tundra-19737.herokuapp.com/update_info/${eventId}`, newEvent)
-    .then((data) => {
-      console.log(data)
-      const isUpdated = data.data.modifiedCount;
-      if(isUpdated){
-        popupSuccess("update");
-        reset();
-        handleClose();
-      }
+import { FaUserFriends } from "react-icons/fa";
+import { IoIosArrowDown } from "react-icons/io";
+import { useHistory, useParams } from "react-router-dom";
+import popupSuccess from "../Popup/popupSuccess";
+
+
+
+const EditComponent = () => {
+  const [singleData, setSingleData] = useState({});
+  const {id} = useParams();
+  const history = useHistory();
+
+
+  const activeStyle = {
+    color: "#fc5b62",
+    fontWeight: "600",
+    backgroundColor: "transparent",
+    cursor: "pointer",
+  };
+
+
+  useEffect(() => {
+    const singleStu = async () =>{
+    await axios
+    .get(`https://obscure-tundra-19737.herokuapp.com/singleData/${id}`)
+    .then((data)=> {
+      console.log(data.data)
+      setSingleData(data.data);
     })
     .catch((err) => console.log(err.message));
-    // reset();
+    }
+    singleStu();
+  },[id])
+
+  const handleButton = () => {
+    history.push("/");
+  };
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    const newEvent = {
+    name : data.name,
+    school : data.school,
+    class : data.class,
+    radio : data.radio,
+    divison : data.divison,
+    age : data.age
   }
-    return (
-      <>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title style={{fontWeight: "700", textTransform: "uppercase"}}>Edit Student Info</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
+  
+  await axios
+  .put(`https://obscure-tundra-19737.herokuapp.com/update_info/${id}`, newEvent)
+  .then((data) => {
+    console.log(data)
+    const isUpdated = data.data.modifiedCount;
+    if(isUpdated){
+      popupSuccess("update");
+      setSingleData({});
+      reset();
+    }
+  });
+  
+  
+}
+const School = "School";
+const Class = "Class";
+const Divison = "Divison";
+
+
+
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-sm-12 col-md-2 col-lg-2 my-4">
+          <div>
+            <div className="d-flex justify-content-between">
+              <h4 className="fw-bold">STUDENT</h4>
+              <span className="fw-bold">
+                <IoIosArrowDown />
+              </span>
+            </div>
+            <div
+              onClick={handleButton}
+              style={activeStyle}
+              className="d-flex mt-4"
+            >
+              <span className="me-3">
+                <FaUserFriends />
+              </span>
+              <p>View Student</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-sm-12 col-md-10 col-lg-10 my-4 border-start">
+            <div className="col-6">
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Full Name</Form.Label>
@@ -61,9 +124,9 @@ const ModalPopup =({show, handleClose, eventId, singleData})=> {
                 <Form.Control
                   type="number"
                   placeholder="Your Age"
-                  defaultValue={singleData?.date}
+                  defaultValue={singleData?.age}
                   className="input-fields"
-                  {...register("date", { required: true })}
+                  {...register("age", { required: true })}
                 />
                 {errors.date?.type === "required" && (
                   <small className="required-text text-center">Date is required</small>
@@ -72,7 +135,7 @@ const ModalPopup =({show, handleClose, eventId, singleData})=> {
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>School</Form.Label>
                 <Form.Select name="school" className="input-fields" aria-label="Default select example" {...register("school", { required: true })}>
-                  <option >{singleData?.school}</option>
+                  <option >{singleData?.school ? singleData?.school : School }</option>
                   <option value="Daripura Model School">Daripura Model School</option>
                   <option value="Shibpur Model School">Shibpur Model School</option>
                   <option value="Narsingdi Model School">Narsingdi Model School</option>
@@ -85,7 +148,7 @@ const ModalPopup =({show, handleClose, eventId, singleData})=> {
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Class</Form.Label>
                 <Form.Select name="class" className="input-fields" aria-label="Default select example" {...register("class", { required: true })}>
-                  <option >{singleData?.class}</option>
+                  <option >{singleData?.class? singleData?.class : Class}</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -98,7 +161,7 @@ const ModalPopup =({show, handleClose, eventId, singleData})=> {
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Divison</Form.Label>
                 <Form.Select name="divison" className="input-fields" aria-label="Default select example" {...register("divison", { required: true })}>
-                  <option>{singleData?.divison}</option>
+                  <option>{singleData?.divison? singleData?.divison : Divison}</option>
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
@@ -115,15 +178,15 @@ const ModalPopup =({show, handleClose, eventId, singleData})=> {
                 <Form.Check type="radio" name="radio" className="form-label" label="Invoice" value="Invoice" {...register("radio")}/>
               </div>
               </Form.Group>
-{/* onClick={handleClose} */}
               <Button variant="primary" className="w-100 btn-custom" type="submit">
               Save Changes
             </Button>
             </Form>
-          </Modal.Body>
-        </Modal>
-      </>
-    );
-  }
-  
-export default ModalPopup;
+            </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EditComponent;

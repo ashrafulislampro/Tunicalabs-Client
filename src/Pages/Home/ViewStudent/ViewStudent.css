@@ -1,3 +1,6 @@
+.view_section {
+  position: relative;
+}
 .css-15wwp11-MuiTableHead-root {
   background-color: transparent !important;
   color: red !important;
@@ -65,4 +68,49 @@
 .number2,
 .number3 {
   background-color: lightgray;
+}
+
+.page-item.active .page-link {
+  background-color: transparent;
+  background-color: #d31c2b;
+  border-color: transparent;
+  border-color: #d31c2b;
+}
+
+.page-link {
+  margin: 7px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.activeStyle {
+  color: #fc5b62;
+  font-weight: 800;
+  background-color: transparent;
+  margin-bottom: 10px;
+}
+
+/* SEARCH ITEMS STYLE */
+
+.input_items p {
+  color: #3f27ba;
+  font-weight: 600;
+  transition: 0.3s;
+  padding: 10px 0;
+}
+
+.details_search_item {
+  border: 2px solid #e8f0fe;
+  position: absolute;
+  width: 12rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  margin-top: 1px;
+  padding: 10px;
+  color: #330691;
+}
+
+.input_items p:hover {
+  background: lightgray;
+  transition: 0.3s;
+  padding: 10px 4px;
+  cursor: pointer;
 }
