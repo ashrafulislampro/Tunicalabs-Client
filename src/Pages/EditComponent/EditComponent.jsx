@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { FaUserFriends } from "react-icons/fa";
 import { IoIosArrowDown } from "react-icons/io";
 import { useHistory, useParams } from "react-router-dom";
+import "../Form/Form.css";
 import popupSuccess from "../Popup/popupSuccess";
-
 
 
 const EditComponent = () => {
@@ -48,13 +48,18 @@ const EditComponent = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    const date = new Date();
+    const presentYear = date.getFullYear();
+    const DOBYear = parseInt(data.age);
+    const age = presentYear - DOBYear;
+    
     const newEvent = {
     name : data.name,
     school : data.school,
     class : data.class,
     radio : data.radio,
     divison : data.divison,
-    age : data.age
+    age : age
   }
   
   await axios
@@ -71,9 +76,9 @@ const EditComponent = () => {
   
   
 }
-const School = "School";
-const Class = "Class";
-const Divison = "Divison";
+// const School = "School";
+// const Class = "Class";
+// const Divison = "Divison";
 
 
 
@@ -81,7 +86,7 @@ const Divison = "Divison";
   return (
     <div className="container">
       <div className="row">
-        <div className="col-sm-12 col-md-2 col-lg-2 my-4">
+        <div className="col-sm-12 col-md-4 col-lg-2 my-4">
           <div>
             <div className="d-flex justify-content-between">
               <h4 className="fw-bold">STUDENT</h4>
@@ -102,11 +107,11 @@ const Divison = "Divison";
           </div>
         </div>
 
-        <div className="col-sm-12 col-md-10 col-lg-10 my-4 border-start">
-            <div className="col-6">
+        <div className="col-sm-12 col-md-8 col-lg-6 my-4 border_style">
+            
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label style={{ fontWeight: "600" }}>Full Name</Form.Label>
+                <Form.Label style={{ fontWeight: "600", marginTop: "10px" }}>Full Name</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Name"
@@ -122,70 +127,69 @@ const Divison = "Divison";
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Date Of Birth</Form.Label>
                 <Form.Control
-                  type="number"
+                  type="date"
                   placeholder="Your Age"
                   defaultValue={singleData?.age}
                   className="input-fields"
                   {...register("age", { required: true })}
                 />
-                {errors.date?.type === "required" && (
+                {errors.age?.type === "required" && (
                   <small className="required-text text-center">Date is required</small>
                 )}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>School</Form.Label>
                 <Form.Select name="school" className="input-fields" aria-label="Default select example" {...register("school", { required: true })}>
-                  <option >{singleData?.school ? singleData?.school : School }</option>
+                  <option >{singleData?.school}</option>
                   <option value="Daripura Model School">Daripura Model School</option>
                   <option value="Shibpur Model School">Shibpur Model School</option>
                   <option value="Narsingdi Model School">Narsingdi Model School</option>
                   <option value="Dhaka Model School">Dhaka Model School</option>
                 </Form.Select>
-                {errors.select?.type === "required" && (
-                  <small className="required-text text-center">Selection is required</small>
+                {errors.school?.type === "required" && (
+                  <small className="required-text text-center">School is required</small>
                 )}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Class</Form.Label>
                 <Form.Select name="class" className="input-fields" aria-label="Default select example" {...register("class", { required: true })}>
-                  <option >{singleData?.class? singleData?.class : Class}</option>
+                  <option >{singleData?.class}</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
-                  <option value="3">4</option>
+                  <option value="4">4</option>
                 </Form.Select>
-                {errors.select?.type === "required" && (
-                  <small className="required-text text-center">Selection is required</small>
+                {errors.class?.type === "required" && (
+                  <small className="required-text text-center">Class is required</small>
                 )}
               </Form.Group>
               <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                 <Form.Label style={{ fontWeight: "600" }}>Divison</Form.Label>
-                <Form.Select name="divison" className="input-fields" aria-label="Default select example" {...register("divison", { required: true })}>
-                  <option>{singleData?.divison? singleData?.divison : Divison}</option>
+                <Form.Select name="class" className="input-fields" aria-label="Default select example" {...register("divison", { required: true })}>
+                  <option>{singleData?.divison}</option>
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
-                  <option value="C">D</option>
+                  <option value="D">D</option>
                 </Form.Select>
-                {errors.select?.type === "required" && (
-                  <small className="required-text">Selection is required</small>
+                {errors.class?.type === "required" && (
+                  <small className="required-text text-center">Divison is required</small>
                 )}
               </Form.Group>
-              <Form.Group className="mb-5 d-flex justify-content-between" controlId="formHorizontalCheck">
+              <Form.Group className="mb-5 d-flex justify-content-between" {...register("radio", {required: true})} controlId="formHorizontalCheck">
               <Form.Label style={{ fontWeight: "600" }} className="pt-3">Status</Form.Label>
               <div name="radio" className="mt-3 d-flex justify-content-around w-75" >
                 <Form.Check type="radio" name="radio" className="form-label" label="Active"  value="Active" {...register("radio")}/>
                 <Form.Check type="radio" name="radio" className="form-label" label="Invoice" value="Invoice" {...register("radio")}/>
               </div>
               </Form.Group>
-              <Button variant="primary" className="w-100 btn-custom" type="submit">
+              <Button variant="primary" className="btn-custom" type="submit">
               Save Changes
             </Button>
             </Form>
             </div>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -114,3 +114,24 @@
   padding: 10px 4px;
   cursor: pointer;
 }
+.border_style {
+  border-left: 2px solid rgb(199, 199, 199);
+}
+/*--------------------------------------------------------------------*/
+/*                     RESPONSIVE WITH MEDIA QUERY                    */
+/*--------------------------------------------------------------------*/
+@media screen and (max-width: 767px) {
+  .border_style {
+    border-left: none;
+    border-top: 2px solid rgb(199, 199, 199);
+  }
+  .activeStyle {
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .border_style {
+    width: 575px;
+  }
+}

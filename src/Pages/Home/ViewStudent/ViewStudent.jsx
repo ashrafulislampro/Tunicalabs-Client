@@ -97,7 +97,7 @@ const ViewStudent = () => {
     const dd = parseInt(newEvent.age);
     console.log(typeof dd);
     const result = stInfo.filter(
-      (item) => (parseInt(item.age) === parseInt(newEvent.age)) && (item.school.toLowerCase() === newEvent.school.toLowerCase()) && (item.class === newEvent.class) && (item.divison.toLowerCase() === newEvent.divison.toLowerCase()) 
+      (item) => (parseInt(item.age) === parseInt(newEvent.age)) || (item.school.toLowerCase() === newEvent.school.toLowerCase()) || (parseInt(item.class) === parseInt(newEvent.class)) || (item.divison.toLowerCase() === newEvent.divison.toLowerCase()) 
     );
     setPaginatedData(result);
     reset();
@@ -147,7 +147,7 @@ const ViewStudent = () => {
   };
 
   return (
-    <section className="view_section">
+    <section className="container view_section">
       <h2 className="activeStyle">View Student</h2>
       {loading ? (
         <div className="spinner-box">
@@ -156,10 +156,10 @@ const ViewStudent = () => {
       ) : (
         <div>
           {/* SEARCH FIELD START */}
-          <div className=" mb-3">
-            <Form className="d-flex" onSubmit={handleSubmit(onSubmit)}>
-              <div className="">
-                <Form.Group className="mb-3 me-3" controlId="formGroupEmail">
+          <div className="mb-3">
+            <Form className="row row-cols-2 row-cols-md-3 row-cols-lg-6" onSubmit={handleSubmit(onSubmit)}>
+              <div className="col mt-2">
+                <Form.Group className="" controlId="formGroupEmail">
                   <input
                     type="text"
                     onChange={(e) => handleSearchField(e.target.value)}
@@ -180,7 +180,7 @@ const ViewStudent = () => {
                   </div>
                 ) : ''}
               </div>
-              <Form.Group className="mb-3 me-3" controlId="formGroupPassword">
+              <Form.Group className="col mt-2" controlId="formGroupPassword">
                 <Form.Control
                   type="number"
                   placeholder="Your Age"
@@ -188,7 +188,7 @@ const ViewStudent = () => {
                   {...register("age")}
                 />
               </Form.Group>
-              <Form.Group className="mb-3 me-3" controlId="formGroupPassword">
+              <Form.Group className="col mt-2" controlId="formGroupPassword">
                 <Form.Select
                   name="school"
                   className="fields"
@@ -208,7 +208,7 @@ const ViewStudent = () => {
                   <option value="Dhaka Model School">Dhaka Model School</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group className="mb-3 me-3" controlId="formGroupPassword">
+              <Form.Group className="col mt-2" controlId="formGroupPassword">
                 <Form.Select
                   name="class"
                   className="fields"
@@ -219,10 +219,10 @@ const ViewStudent = () => {
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
-                  <option value="3">4</option>
+                  <option value="4">4</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group className="mb-3 me-3 " controlId="formGroupPassword">
+              <Form.Group className="col mt-2" controlId="formGroupPassword">
                 <Form.Select
                   name="divison"
                   className="fields"
@@ -233,10 +233,10 @@ const ViewStudent = () => {
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
-                  <option value="C">D</option>
+                  <option value="D">D</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formHorizontalCheck">
+              <Form.Group className="col mt-2" controlId="formHorizontalCheck">
                 <button className="fields-btn" type="submit">
                   Search
                 </button>
@@ -246,7 +246,7 @@ const ViewStudent = () => {
           {/* SEARCH FIELD END */}
 
           {/* TABLE IS START */}
-          <Table id="table-to-xls" striped bordered hover>
+          <Table id="table-to-xls" striped bordered responsive hover>
             <thead className="table_header">
               <tr>
                 <th>ID'V</th>
@@ -272,12 +272,12 @@ const ViewStudent = () => {
                     {currentPage === 8 && <td>{index + 1 + 70}</td>}
                     {currentPage === 9 && <td>{index + 1 + 80}</td>}
                     {currentPage === 10 && <td>{index + 1 + 90}</td>}
-                    <td>{data.name}</td>
-                    <td>{data.age}</td>
-                    <td>{data.school}</td>
-                    <td>{data.class}</td>
-                    <td>{data.divison}</td>
-                    <td>{data.radio}</td>
+                    <td className="text-nowrap">{data.name}</td>
+                    <td className="text-nowrap">{data.age}</td>
+                    <td className="text-nowrap">{data.school}</td>
+                    <td className="text-nowrap">{data.class}</td>
+                    <td className="text-nowrap">{data.divison}</td>
+                    <td className="text-nowrap">{data.radio}</td>
                     <td
                       onClick={() => handleEditButton(data._id)}
                       className="edit"

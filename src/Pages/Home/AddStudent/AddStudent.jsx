@@ -28,7 +28,8 @@ const AddStudent = () => {
     divison : data.divison,
     age : age
   }
-  
+  console.log(data)
+  console.log(newEvent)
     
   await  axios
     .post("https://obscure-tundra-19737.herokuapp.com/addEvent", newEvent)
@@ -45,7 +46,7 @@ const AddStudent = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-6">
+        <div className="col">
           <h2 className="activeStyle">Add Student</h2>
           <div className="">
             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -53,7 +54,7 @@ const AddStudent = () => {
                 className="mb-3"
                 controlId="formGroupEmail"
               >
-                <div className="d-flex justify-content-between">
+                <div className="each_part">
                 <Form.Label style={{ fontWeight: "600" }} className="pt-3">
                   Full Name
                 </Form.Label>
@@ -72,7 +73,7 @@ const AddStudent = () => {
                 className="mb-3"
                 controlId="formGroupPassword"
               >
-                <div className="d-flex justify-content-between">
+                <div className="each_part">
                 <Form.Label style={{ fontWeight: "600" }} className="pt-3">
                   Date Of Birth
                 </Form.Label>
@@ -88,59 +89,59 @@ const AddStudent = () => {
                 )}
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupPassword">
-              <div className="d-flex justify-content-between">
+              <div className="each_part">
                 <Form.Label style={{ fontWeight: "600" }} className="pt-3">School</Form.Label>
                 <Form.Select name="school" className="input-field" aria-label="Default select example" {...register("school", { required: true })}>
-                  <option >Select menu</option>
+                  <option disabled>Select menu</option>
                   <option value="Daripura Model School">Daripura Model School</option>
                   <option value="Shibpur Model School">Shibpur Model School</option>
                   <option value="Narsingdi Model School">Narsingdi Model School</option>
                   <option value="Dhaka Model School">Dhaka Model School</option>
                 </Form.Select>
                 </div>
-                {errors.select?.type === "required" && (
-                  <small className="required-text text-center">Selection is required</small>
+                {errors.school?.type === "required" && (
+                  <small className="required-text text-center">School is required</small>
                 )}
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupPassword">
-              <div className="d-flex justify-content-between">
+              <div className="each_part">
                 <Form.Label style={{ fontWeight: "600" }} className="pt-3">Class</Form.Label>
                 <Form.Select name="class" className="input-field" aria-label="Default select example" {...register("class", { required: true })}>
-                  <option >Select menu</option>
+                  <option disabled>Select menu</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
                   <option value="4">4</option>
                 </Form.Select>
                 </div>
-                {errors.select?.type === "required" && (
-                  <small className="required-text text-center">Selection is required</small>
+                {errors.class?.type === "required" && (
+                  <small className="required-text text-center">Class is required</small>
                 )}
               </Form.Group>
               <Form.Group className="mb-3" controlId="formGroupPassword">
-                <div className="d-flex justify-content-between">
+                <div className="each_part">
                 <Form.Label style={{ fontWeight: "600" }} className="pt-3">Divison</Form.Label>
-                <Form.Select name="divison" className="input-field" aria-label="Default select example" {...register("divison", { required: true })}>
-                  <option >Select menu</option>
+                <Form.Select name="divison" className="input-field" {...register("divison", { required: true })} aria-label="Default select example">
+                  <option disabled>Select menu</option>
                   <option value="A">A</option>
                   <option value="B">B</option>
                   <option value="C">C</option>
                   <option value="D">D</option>
                 </Form.Select>
                 </div>
-                {errors.select?.type === "required" && (
-                  <small className="required-text">Selection is required</small>
+                {errors.divison?.type === "required" && (
+                  <small className="required-text">Divison is required</small>
                 )}
               </Form.Group >
-              <Form.Group className="mb-5 d-flex justify-content-between" controlId="formHorizontalCheck">
+              <Form.Group className="mb-5 each_part" {...register("radio", {required: true})} controlId="formHorizontalCheck">
               <Form.Label style={{ fontWeight: "600" }} className="pt-3">Status</Form.Label>
               <div name="radio" className="mt-3 d-flex justify-content-around w-75" >
                 <Form.Check type="radio" name="radio" className="form-label" label="Active" value="Active" {...register("radio")}/>
                 <Form.Check type="radio" name="radio" className="form-label" label="Invoice" value="Invoice" {...register("radio")}/>
               </div>
               </Form.Group>
-              <Form.Group className="mb-3" controlId="formHorizontalCheck">
-                <button className="w-100 btn-custom" type="submit">
+              <Form.Group className="text-center" controlId="formHorizontalCheck">
+                <button className="btn-customs" type="submit">
                   Save
                 </button>
               </Form.Group>

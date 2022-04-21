@@ -25,7 +25,7 @@ const Sign_UP = () => {
 
   return (
     <div className="signup-container">
-      <div className="form-signin" data-aos="fade-up">
+      <div className="form-signup" data-aos="fade-up">
       <h2 className="text-center mb-5">Sign Up Now</h2>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Form.Group className="mb-3" controlId="formGroupName">

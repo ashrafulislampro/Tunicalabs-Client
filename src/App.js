@@ -29,9 +29,9 @@ function App() {
           <PrivateRoute exact path="/">
             <Home />
           </PrivateRoute>
-          {/* <PrivateRoute exact path="/home">
+          <PrivateRoute exact path="/home">
             <Home />
-          </PrivateRoute> */}
+          </PrivateRoute>
           <PrivateRoute path="/edit/:id">
             <EditComponent />
           </PrivateRoute>
