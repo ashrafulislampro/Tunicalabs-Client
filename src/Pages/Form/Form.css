@@ -136,7 +136,7 @@
 }
 @media screen and (max-width: 1400px) {
   .form-signup {
-    margin: 10% 0;
+    /* margin: 10% 0; */
     width: 380px;
   }
   .social-btn-box {
@@ -144,12 +144,12 @@
   }
   .form-signin {
     min-width: 380px;
-    margin: 8.7% 0;
+    /* margin: 8.7% 0; */
   }
 }
 @media screen and (max-width: 1300px) {
   .form-signup {
-    margin: 10.7% 0;
+    /* margin: 10.7% 0; */
     width: 380px;
   }
   .social-btn-box {

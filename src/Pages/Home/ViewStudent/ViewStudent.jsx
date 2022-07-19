@@ -18,22 +18,30 @@ const ViewStudent = () => {
   const history = useHistory();
   const [text, setText] = useState("");
   const [suggest, setSuggest] = useState([]);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   const pageSize = 10;
-
+  /* -------------------------------------------------------------------------- */
+  /*                     LOAD ALL STUDENT INFO FUNCTIONALITY                    */
+  /* -------------------------------------------------------------------------- */
   useEffect(() => {
     setLoading(true);
-    /* -------------------------------------------------------------------------- */
-    /*                     LOAD ALL STUDENT INFO FUNCTIONALITY                    */
-    /* -------------------------------------------------------------------------- */
-    setTimeout(async () => {
-      await axios.get("https://obscure-tundra-19737.herokuapp.com/events").then((data) => {
-        setStInfo(data.data);
-        setPaginatedData(_(data.data).slice(0).take(pageSize).value());
-        setLoading(false);
-      });
-    }, 1500);
+
+    try {
+      setTimeout(async () => {
+        await axios
+          .get("https://obscure-tundra-19737.herokuapp.com/events")
+          .then((data) => {
+            setStInfo(data.data);
+            console.log(data.data);
+            console.log(_(data.data).slice(0).take(pageSize).value());
+            setPaginatedData(_(data.data).slice(0).take(pageSize).value());
+            setLoading(false);
+          });
+      }, 1500);
+    } catch (error) {
+      console.log(error);
+    }
   }, []);
 
   /* -------------------------------------------------------------------------- */
@@ -51,7 +59,9 @@ const ViewStudent = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axios
-          .delete(`https://obscure-tundra-19737.herokuapp.com/remove_info/${id}`)
+          .delete(
+            `https://obscure-tundra-19737.herokuapp.com/remove_info/${id}`
+          )
           .then((data) => {
             console.log(data);
             const isDeleted = data.data.deletedCount;
@@ -97,7 +107,11 @@ const ViewStudent = () => {
     const dd = parseInt(newEvent.age);
     console.log(typeof dd);
     const result = stInfo.filter(
-      (item) => (parseInt(item.age) === parseInt(newEvent.age)) || (item.school.toLowerCase() === newEvent.school.toLowerCase()) || (parseInt(item.class) === parseInt(newEvent.class)) || (item.divison.toLowerCase() === newEvent.divison.toLowerCase()) 
+      (item) =>
+        parseInt(item.age) === parseInt(newEvent.age) ||
+        item.school.toLowerCase() === newEvent.school.toLowerCase() ||
+        parseInt(item.class) === parseInt(newEvent.class) ||
+        item.divison.toLowerCase() === newEvent.divison.toLowerCase()
     );
     setPaginatedData(result);
     reset();
@@ -106,30 +120,35 @@ const ViewStudent = () => {
   // console.log("h", suggest.slice(0, 10));
 
   const handleSearchField = async (name) => {
-    
     let matches = [];
 
     if (name.length > 0) {
       matches = stInfo.filter((title) => {
         const regex = new RegExp(`${name}`, "");
-        return title.name.match(regex);
+        console.log(title.name);
+        const result = title.name.match(regex);
+        console.log(result);
+        return result;
       });
     }
+    console.log(matches);
     setText(name);
     setSuggest(matches);
   };
-  const handleText = (event) =>{
-    setName(event);
-    const result = stInfo.filter((item) => item.name.toLowerCase() === event.toLowerCase());
-    setPaginatedData(result);
-    console.log(result)
 
-    if(result.length > 0){
-      document.getElementById("suggested_item").style.display= "none";
-      document.getElementById("input_search").value=event;
-      
+  const handleText = (event) => {
+    setName(event);
+    const result = stInfo.filter(
+      (item) => item.name.toLowerCase() === event.toLowerCase()
+    );
+    setPaginatedData(result);
+    console.log(result);
+
+    if (result.length > 0) {
+      document.getElementById("suggested_item").style.display = "none";
+      document.getElementById("input_search").value = event;
     }
-  }
+  };
 
   /*-----------------------------------------------------------------------------*/
   /*                                     pagination functionality                */
@@ -157,7 +176,10 @@ const ViewStudent = () => {
         <div>
           {/* SEARCH FIELD START */}
           <div className="mb-3">
-            <Form className="row row-cols-2 row-cols-md-3 row-cols-lg-6" onSubmit={handleSubmit(onSubmit)}>
+            <Form
+              className="row row-cols-2 row-cols-md-3 row-cols-lg-6"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <div className="col mt-2">
                 <Form.Group className="" controlId="formGroupEmail">
                   <input
@@ -170,15 +192,22 @@ const ViewStudent = () => {
                     name=""
                   />
                 </Form.Group>
-                {text ? suggest.length !== 0 && (
-                  <div id="suggested_item" className="details_search_item">
-                    {suggest?.slice(0, 10)?.map(({ name, path, index }) => (
-                      <div className="input_items " key={index}>
-                        <p onClick={()=> handleText(name)} className="pt-2">{name}</p>
+                {text
+                  ? suggest.length !== 0 && (
+                      <div id="suggested_item" className="details_search_item">
+                        {suggest?.slice(0, 10)?.map(({ name, path, index }) => (
+                          <div className="input_items " key={index}>
+                            <p
+                              onClick={() => handleText(name)}
+                              className="pt-2"
+                            >
+                              {name}
+                            </p>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                ) : ''}
+                    )
+                  : ""}
               </div>
               <Form.Group className="col mt-2" controlId="formGroupPassword">
                 <Form.Control
